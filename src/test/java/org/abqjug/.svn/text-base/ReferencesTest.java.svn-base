@@ -1,0 +1,89 @@
+package org.abqjug;
+
+import org.testng.annotations.Test;
+
+import java.lang.ref.*;
+import java.util.WeakHashMap;
+
+/**
+ * Created by Daniel Hinojosa
+ * User: Daniel Hinojosa
+ * Date: 03 Mar 14, 2010, 2010
+ * Time: 12:35:32 AM
+ * url: <a href="http://www.evolutionnext.com">http://www.evolutionnext.com</a>
+ * email: <a href="mailto:dhinojosa@evolutionnext.com">dhinojosa@evolutionnext.com</a>
+ * tel: 505.363.5832
+ */
+public class ReferencesTest {
+    public class RunWeakReference extends Thread {
+        private ReferenceQueue<Integer> queue;
+
+        public RunWeakReference(ReferenceQueue<Integer> queue) {
+            this.queue = queue;
+        }
+
+        public void run() {
+            WeakReference<Integer> weakReference = new WeakReference<Integer>(4, queue);
+            System.out.println("Hooray! I used weak reference" + weakReference.get());
+            weakReference = null;
+        }
+    }
+
+    public class QueueRunner extends Thread {
+        private ReferenceQueue<Integer> queue;
+
+        public QueueRunner(ReferenceQueue<Integer> queue) {
+            this.queue = queue;
+        }
+
+        private boolean done;
+
+        public void run() {
+            while (!done) {
+                Reference<? extends Integer> candidate = queue.poll();
+                if (candidate != null) {
+                    System.out.println(candidate.get() + "has been garbage collected");
+                }
+            }
+        }
+
+        public void turnOff() {
+            done = true;
+        }
+
+    }
+
+
+    @Test(groups = "references")
+    public void testPhantomReference() throws InterruptedException {
+        ReferenceQueue<Integer> queue = new ReferenceQueue<Integer>();
+        QueueRunner runner = new QueueRunner(queue);
+        runner.start();
+
+        PhantomReference<Integer> integerPhantomReference = new PhantomReference<Integer>(2, queue);
+        integerPhantomReference = null;
+        Thread.yield();
+        Thread.sleep(10000);
+        runner.turnOff();
+    }
+
+    @Test(groups = "references")
+    public void testWeakReference() throws InterruptedException {
+        Integer f = new Integer(10);
+        WeakReference<Integer> weakReference = new WeakReference<Integer>(f);
+        System.out.println(weakReference.get());
+        f = null;
+        System.gc();
+        System.out.println(weakReference.get());
+    }
+
+     @Test(groups = "references")
+    public void testSoftReference() throws InterruptedException {
+        Integer f = new Integer(10);
+        SoftReference<Integer> softReference = new SoftReference<Integer>(f);
+        System.out.println(softReference.get());
+        f = null;
+        System.gc();
+        System.out.println(softReference.get());
+    }
+}
