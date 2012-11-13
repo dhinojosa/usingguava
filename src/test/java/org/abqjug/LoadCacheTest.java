@@ -93,7 +93,7 @@ public class LoadCacheTest {
                 .initialCapacity(50)
                 .weakKeys()
                 .weakValues()
-                .softValues()
+//                .softValues()
                 .removalListener(new MyRemovalListener())
                 .build(
                         new CacheLoader<Key, Graph>() {

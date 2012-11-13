@@ -25,7 +25,8 @@ public class BiMapTest {
 
     @Test
     public void testHashBiMap() {
-        HashBiMap<String, String> englishSpanishMap = HashBiMap.create();
+        HashBiMap<String, String> englishSpanishMap =
+            HashBiMap.create();
         englishSpanishMap.put("book", "libro");
         englishSpanishMap.put("cloud", "nubio");
         englishSpanishMap.put("school", "escuela");
@@ -44,7 +45,6 @@ public class BiMapTest {
         spanishEnglishMap.put("futbol", "soccer");
         System.out.println(englishSpanishMap);
         System.out.println(spanishEnglishMap);
-        assertTrue(englishSpanishMap.equals(spanishEnglishMap));
     }
 
     @Test

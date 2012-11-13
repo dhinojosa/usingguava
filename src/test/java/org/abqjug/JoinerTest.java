@@ -53,9 +53,9 @@ public class JoinerTest {
     @Test(groups = "joiner")
     public void testUseForNull() {
         int c = 0;
-        assertEquals(Joiner.on(" ! ").useForNull("something" + (++c)).join(
+        assertEquals(Joiner.on(" ! ").useForNull("<NOTHING>").join(
                 Lists.newArrayList("Elvis", "Jim Morrison", null, "Roy Orbison", null, "Buddy Holly")),
-                "Elvis ! Jim Morrison ! Roy Orbison ! <NOTHING> ! Buddy Holly");
+                "Elvis ! Jim Morrison ! <NOTHING> ! Roy Orbison ! <NOTHING> ! Buddy Holly");
     }
 
     @Test(groups = "joiner")

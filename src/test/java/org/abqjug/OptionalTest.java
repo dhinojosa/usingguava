@@ -28,12 +28,10 @@ public class OptionalTest {
         assertThat(getMiddleName("John Fitzgerald Kennedy")).isEqualTo(Optional.of("Fitzgerald"));
     }
 
-    //http://www.github.com/dhinojosa/usingguava
     @Test
     public void testOptionalFromNullable() {
         assertThat(getValueFromInternalMap("Nine")).isEqualTo(Optional.absent());
-        assertThat(getValueFromInternalMap("One").get()).isEqualTo("One");
+        assertThat(getValueFromInternalMap("One").get()).isEqualTo("1");
         assertThat(getValueFromInternalMap("One").isPresent()).isTrue();
-        Optional.absent().get();
     }
 }

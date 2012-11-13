@@ -1,6 +1,7 @@
 package org.abqjug;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
@@ -22,9 +23,9 @@ public class IterablesIteratorsTest {
 
     @Test
     public void testIterableAddAll() {
-        List<String> northAmericaCountries = Arrays.<String>asList("Canada", "Mexico", "United States");
+        List<String> northAmericaCountries = Lists.newArrayList("Canada", "Mexico", "United States");
         List<String> centralAmericaCountries =
-                Arrays.<String>asList("Guatamala", "Belize", "El Salvador", "Honduras", "Costa Rica", "Nicaragua");
+                Lists.newArrayList("Guatamala", "Belize", "El Salvador", "Honduras", "Costa Rica", "Nicaragua");
         Iterables.addAll(northAmericaCountries, centralAmericaCountries);
         System.out.println(northAmericaCountries);
     }

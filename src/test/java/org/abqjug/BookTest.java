@@ -2,6 +2,7 @@ package org.abqjug;
 
 import org.testng.annotations.Test;
 
+import static org.fest.assertions.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
 
 /**
@@ -27,7 +28,11 @@ public class BookTest {
     @Test()
     public void testGetGradesWithNoGrades() {
         Book book = new Book();
-        assertEquals(book.getHighestGrade(), new Integer(100));
+        try {
+            book.getHighestGrade();
+        } catch (IllegalStateException ise) {
+            assertThat(ise).hasMessage("No grades are entered");
+        }
     }
 
     @Test()
