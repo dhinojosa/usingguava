@@ -44,10 +44,10 @@ public class LoadCacheTest {
         }
     }
 
-    public class Graph {
+    public class Result {
         private int value;
 
-        public Graph(int value) {
+        public Result(int value) {
             this.value = value;
         }
 
@@ -71,21 +71,21 @@ public class LoadCacheTest {
         }
     }
 
-    public class MyRemovalListener implements RemovalListener<Key, Graph> {
+    public class MyRemovalListener implements RemovalListener<Key, Result> {
 
-        public void onRemoval(RemovalNotification<Key, Graph> keyGraphRemovalNotification) {
+        public void onRemoval(RemovalNotification<Key, Result> keyGraphRemovalNotification) {
             System.out.println(keyGraphRemovalNotification.getCause());
             System.out.println(keyGraphRemovalNotification.getKey());
         }
     }
 
-    public Graph createExpensiveGraph(Key key) {
-        return new Graph(key.getValue() * 2);
+    public Result createResult(Key key) {
+        return new Result(key.getValue() * 2);
     }
 
     @Test
     public void testLoadingCache() throws ExecutionException {
-        LoadingCache<Key, Graph> graphs = CacheBuilder.newBuilder()
+        LoadingCache<Key, Result> graphs = CacheBuilder.newBuilder()
                 .concurrencyLevel(4)
                 .maximumSize(10000)
                 .expireAfterWrite(10, TimeUnit.MINUTES)
@@ -93,12 +93,12 @@ public class LoadCacheTest {
                 .initialCapacity(50)
                 .weakKeys()
                 .weakValues()
-//                .softValues()
+                .softValues()
                 .removalListener(new MyRemovalListener())
                 .build(
-                        new CacheLoader<Key, Graph>() {
-                            public Graph load(Key key) {
-                                return createExpensiveGraph(key);
+                        new CacheLoader<Key, Result>() {
+                            public Result load(Key key) {
+                                return createResult(key);
                             }
                         });
 
