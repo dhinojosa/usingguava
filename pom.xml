@@ -7,6 +7,11 @@
     <version>1.0-SNAPSHOT</version>
     <name>guava-study</name>
     <url>http://maven.apache.org</url>
+
+    <scm>
+        <developerConnection>scm:git:git@github.com:dhinojosa/usingguava.git</developerConnection>
+    </scm>
+
     <build>
         <plugins>
             <plugin>
