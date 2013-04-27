@@ -1,3 +1,5 @@
 target/
 .idea
-google-collections-study.iws
+*.ipr
+*.iws
+*.iml
