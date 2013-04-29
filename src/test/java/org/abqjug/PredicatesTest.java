@@ -9,6 +9,8 @@ import java.util.Collection;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 public class PredicatesTest {
 
@@ -45,7 +47,11 @@ public class PredicatesTest {
         assertThat(filteredList.contains(23)).isTrue();
         assertThat(unfiltered.contains(23)).isTrue();
 
-        filteredList.add(40);   //Will fail
-
+        try {
+            filteredList.add(40);   //Will fail
+            fail("The line above should've failed");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
     }
 }
