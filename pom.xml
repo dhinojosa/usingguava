@@ -9,8 +9,10 @@
     <url>http://maven.apache.org</url>
 
     <scm>
+        <connection>scm:git:git@github.com:dhinojosa/usingguava.git</connection>
         <developerConnection>scm:git:git@github.com:dhinojosa/usingguava.git</developerConnection>
     </scm>
+
 
     <build>
         <plugins>
