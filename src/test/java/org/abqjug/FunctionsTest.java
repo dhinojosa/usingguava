@@ -11,7 +11,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.Fail.fail;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Created by Daniel Hinojosa
@@ -24,6 +27,7 @@ import static org.testng.Assert.assertEquals;
  */
 public class FunctionsTest {
 
+    @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
     @Test(groups = "unit")
     public void testTransformWithCollections2() {
         Function<Integer, Integer> doubleIt = new Function<Integer, Integer>() {
@@ -40,10 +44,6 @@ public class FunctionsTest {
                 "[2, 10, 12, 16, 18, 20, 88, 110, 38]");
 
         assertEquals(untransformed.toString(), "[1, 5, 6, 8, 9, 10, 44, 55, 19]");
-
-        transformed.add(100);
-
-        assertEquals(untransformed.toString(), "[1, 5, 6, 8, 9, 10, 44, 55, 19, 200]");
     }
 
     @Test(groups = "unit")
