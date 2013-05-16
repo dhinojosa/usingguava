@@ -105,6 +105,8 @@ public class LoadCacheTest {
 
         assertThat(graphs.get(new Key(13)).getValue()).isEqualTo(26);
         assertThat(graphs.get(new Key(15)).getValue()).isEqualTo(30);
+
+
         System.out.println(graphs.getAll
                 (Lists.transform(Lists.newArrayList(1, 3, 4, 19, 20, 25)
                         , new IntegerToKeyFunction())));
