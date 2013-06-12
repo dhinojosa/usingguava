@@ -53,12 +53,14 @@ public class FunctionsTest {
 
         Collection<Integer> untransformed = Lists
                 .newArrayList(1, 5, 6, 8, 9, 10, 44, 55, 19);
-        Collection<Integer> transformed = Collections2.transform(untransformed, doubleIt);
+        Collection<Integer> transformed = Collections2.
+                transform(untransformed, doubleIt);
 
         assertEquals(transformed.toString(),
                 "[2, 10, 12, 16, 18, 20, 88, 110, 38]");
 
-        assertEquals(untransformed.toString(), "[1, 5, 6, 8, 9, 10, 44, 55, 19]");
+        assertEquals(untransformed.toString(),
+                "[1, 5, 6, 8, 9, 10, 44, 55, 19]");
     }
 
     @Test(groups = "unit")

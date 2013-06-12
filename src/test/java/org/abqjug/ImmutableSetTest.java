@@ -65,6 +65,7 @@ public class ImmutableSetTest {
         // performs binary searches instead.
 
         Set<Integer> intSet = ImmutableSet.of(4, 5, 6, 7);
+
         try {
             intSet.add(10);
             fail("Unsupported Operation Exception found");
