@@ -69,4 +69,27 @@ public class PredicatesTest {
             assertTrue(true);
         }
     }
+
+    @Test
+    public void testPredicateBasicJava8() {
+        Collection<Integer> unfiltered = Lists.<Integer>newArrayList
+                (1, 5, 6, 8, 9, 10, 44, 55, 19);
+
+        Collection<Integer> filteredList =
+                Collections2.filter(unfiltered, input -> input % 2 != 0);
+
+        assertThat(filteredList.contains(21)).isFalse(); //Obvious
+        unfiltered.add(21);
+        assertThat(filteredList.contains(21)).isTrue();
+        filteredList.add(23);
+        assertThat(filteredList.contains(23)).isTrue();
+        assertThat(unfiltered.contains(23)).isTrue();
+
+        try {
+            filteredList.add(40);   //Will fail
+            fail("The line above should've failed");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+    }
 }

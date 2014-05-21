@@ -25,7 +25,6 @@ import org.testng.annotations.Test;
 
 import java.util.Map;
 
-import static org.fest.assertions.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
 
 public class MapsTest {
@@ -41,10 +40,13 @@ public class MapsTest {
         Map<String, String> stateCaps2 = ImmutableMap.<String, String>builder()
                 .put("Tallahassee", "Florida")
                 .put("Raleigh", "North Carolina")
+                .put("Salem", "Oregon")
+                .put("Santa Fe", "New Mexico")
+                .put("Denver", "Colorado")
                 .put("Bismarck", "North Dakota").build();
         MapDifference<String, String> diff = Maps.difference(stateCaps, stateCaps2);
-        assertEquals(diff.entriesOnlyOnLeft().size(), 4);
-        assertEquals(diff.entriesOnlyOnRight().size(), 2);
+        assertEquals(diff.entriesInCommon().size(), 2);
+        assertEquals(diff.entriesOnlyOnRight().size(), 4);
     }
 
     @Test
@@ -62,19 +64,16 @@ public class MapsTest {
         Map<String, String> common = Maps.difference(stateCaps, stateCaps2).entriesInCommon();
         assertEquals(common.size(), 1);
         assertEquals(common.get("Tallahassee"), "Florida");
-//        assertThat(stateCaps).
     }
 
     @Test
     public void filterValuesTest() {
         Map<String, String> stateCaps = ImmutableMap.<String, String>builder()
                 .put("Tallahassee", "Florida")
-                .put("Santa Fe", "New Mexico")
-                .put("Trenton", "New Jersey")
                 .put("Olympia", "Washington")
                 .put("Albany", "New York").build();
         Predicate<CharSequence> startsWithNew = Predicates.containsPattern("New.*");
-        Map<String, String> filtered = Maps.filterValues(stateCaps,startsWithNew);
-        assertEquals(filtered.size(), 3);
+        Map<String, String> filtered = Maps.filterValues(stateCaps, startsWithNew);
+        assertEquals(filtered.size(), 1);
     }
 }

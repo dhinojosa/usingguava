@@ -18,6 +18,7 @@ package org.abqjug;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.common.collect.UnmodifiableIterator;
 import org.testng.annotations.Test;
 
 import java.util.*;
@@ -139,6 +140,15 @@ public class ImmutableSetTest {
         Set<Integer> intSet = ImmutableSet.of(6, 7, 7, 8, 9, 10);
         assertEquals(intSet.toString(), "[6, 7, 8, 9, 10]");
     }
+
+
+    @Test
+    public void testAwesomeQ() {
+        Set<Integer> a = new HashSet<>();
+        ImmutableSet.builder().add(4).add(5).build();
+    }
+
+
 
 
 }

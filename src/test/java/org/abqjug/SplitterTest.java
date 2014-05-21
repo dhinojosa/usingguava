@@ -22,9 +22,9 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import org.testng.annotations.Test;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -62,5 +62,25 @@ public class SplitterTest {
                 .withKeyValueSeparator("->")
                 .split(value);
          assertThat(splitKeyValues).hasSize(3);
+    }
+
+    @Test
+    public void splitStuff() {
+        System.out.println(Splitter.onPattern(",").split("and,aid,alm,awk,boy"));
+
+    }
+
+    private List<String> regexToList(String words, String regex) {
+        List wordList = new ArrayList<>();
+        Matcher m = Pattern.compile(regex).matcher(words);
+        while (m.find())
+            wordList.add(m.group());
+        return wordList;
+    }
+
+    @Test
+    public void splitStuff2() {
+        Pattern.compile("b.*\\W").splitAsStream("a bhutanese bonnet brings bowling to boston and buffalo").forEach(System.out::println);
+        System.out.println("Cool");
     }
 }

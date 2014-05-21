@@ -20,6 +20,8 @@ import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import org.testng.annotations.Test;
 
+import java.util.stream.Collectors;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -51,6 +53,13 @@ public class MultiSetTest {
         assertEquals(worldCupChampionships.count("Italy"), 4);
         assertEquals(worldCupChampionships.count("Germany"), 3);
         assertEquals(worldCupChampionships.count("United States"), 0);
+
+        worldCupChampionships.stream().forEach(System.out::println);
+
+        Multiset<String> updatedWorldCupChampionships = worldCupChampionships.stream().map((s) ->
+                String.format("Team %s", s)).collect(Collectors.toCollection(HashMultiset::create));
+        System.out.println(updatedWorldCupChampionships);
+
         worldCupChampionships.remove("Brazil");
         assertEquals(worldCupChampionships.count("Brazil"), 4);
 //        worldCupChampionships.remove("Brazil",
@@ -58,6 +67,5 @@ public class MultiSetTest {
         worldCupChampionships.setCount("Brazil", 0);
         assertEquals(worldCupChampionships.count("Brazil"), 0);
         assertEquals(worldCupChampionships.count("Uruguay"), 0);
-
     }
 }

@@ -19,6 +19,8 @@ package org.abqjug;
 import com.google.common.base.Objects;
 import org.testng.annotations.Test;
 
+import static org.fest.assertions.Assertions.assertThat;
+
 /**
  * Created by Daniel Hinojosa
  * User: Daniel Hinojosa
@@ -29,14 +31,82 @@ import org.testng.annotations.Test;
  * tel: 505.363.5832
  */
 public class ObjectsTest {
-    @Test(groups = "unit")
     public boolean testObjects(String s1, String s2) {
         if (s1 != null) return s1.equals(s2);
         return s2 != null && s2.equals(s1);
     }
 
-    @Test(groups = "unit")
     public boolean testObjects2(String s1, String s2) {
         return Objects.equal(s1, s2);
     }
+
+    @Test
+    public void testObjectsUtil() {
+        assertThat(java.util.Objects.equals("Goat", "Goat")).isEqualTo(true);
+        assertThat(Objects.equal("Goat", "Goat")).isEqualTo(true);
+    }
+    @Test(groups = "unit")
+    public void testObjectsRegularWay() {
+        String s1 = "Cool";
+        String s2 = null;
+        assertThat(testObjects(s1, s2)).isFalse();
+    }
+
+    @Test(groups = "unit")
+    public void testObjectsRegularWay2() {
+        String s1 = null;
+        String s2 = "Cool";
+        assertThat(testObjects(s1, s2)).isFalse();
+    }
+
+    @Test(groups = "unit")
+    public void testObjectsRegularWay3() {
+        String s1 = "Cool";
+        String s2 = "Cool";
+        assertThat(testObjects(s1, s2)).isTrue();
+    }
+
+    @Test(groups = "unit")
+    public void testObjectsWithGuava() {
+        String s1 = "Cool";
+        String s2 = null;
+        assertThat(Objects.equal(s1, s2)).isFalse();
+    }
+
+    @Test(groups = "unit")
+    public void testObjectsWithGuava2() {
+        String s1 = null;
+        String s2 = "Cool";
+        assertThat(Objects.equal(s1, s2)).isFalse();
+    }
+
+    @Test(groups = "unit")
+    public void testObjectsWithGuava3() {
+        String s1 = "Cool";
+        String s2 = "Cool";
+        assertThat(Objects.equal(s1, s2)).isTrue();
+    }
+
+    @Test(groups = "unit")
+    public void testObjectFirstNonNull() {
+        String s1 = null;
+        String s2 = "Cool";
+        assertThat(Objects.firstNonNull(s1, s2)).isEqualTo(s2);
+    }
+
+    @Test(groups = "unit")
+    public void testObjectFirstNonNull2() {
+        String s1 = "Cool";
+        String s2 = null;
+        assertThat(Objects.firstNonNull(s1, s2)).isEqualTo(s1);
+    }
+
+    @Test(groups = "unit")
+    public void testObjectFirstNonNull3() {
+        String s1 = "Cool";
+        String s2 = "Cool";
+        assertThat(Objects.firstNonNull(s1, s2)).isEqualTo(s1);
+    }
+
+
 }

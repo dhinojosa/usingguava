@@ -16,12 +16,13 @@
 
 package org.abqjug;
 
-import com.google.common.base.Function;
-import com.google.common.base.Objects;
 import com.google.common.cache.*;
-import com.google.common.collect.Lists;
 import org.testng.annotations.Test;
 
+import java.math.BigInteger;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -29,110 +30,80 @@ import static org.fest.assertions.Assertions.assertThat;
 
 public class LoadCacheTest {
 
-    public class Key {
-        private int value;
+    public class MyRemovalListener implements RemovalListener<Integer, BigInteger> {
+        private List<Integer> keysRemovedRecently;
 
-        public Key(int value) {
-            this.value = value;
+        public MyRemovalListener() {
+              this.keysRemovedRecently = new ArrayList<>();
         }
 
-        public int getValue() {
-            return value;
-        }
-
-        @Override
-        public String toString() {
-            return Objects.
-                    toStringHelper(this)
-                    .add("value", value).toString();
-        }
-
-        @Override
-        public boolean equals(Object object) {
-            return object instanceof Key &&
-                    Objects.equal(value, ((Key) object)
-                            .getValue());
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hashCode(value, 13);
-        }
-    }
-
-    public class Result {
-        private int value;
-
-        public Result(int value) {
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-        @Override
-        public String toString() {
-            return Objects.toStringHelper(this).add("value", value).toString();
-        }
-
-        @Override
-        public boolean equals(Object object) {
-            return object instanceof Key && Objects.equal(value, ((Key) object).getValue());
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hashCode(value, 23);
-        }
-    }
-
-    public class MyRemovalListener implements RemovalListener<Key, Result> {
-
-        public void onRemoval(RemovalNotification<Key, Result> keyGraphRemovalNotification) {
+        @SuppressWarnings("NullableProblems")
+        public void onRemoval(RemovalNotification<Integer, BigInteger>
+                                      keyGraphRemovalNotification) {
+            keysRemovedRecently.add(keyGraphRemovalNotification.getKey());
             System.out.println(keyGraphRemovalNotification.getCause());
             System.out.println(keyGraphRemovalNotification.getKey());
         }
+
+        public List<Integer> getKeysRemovedRecently() {
+            return keysRemovedRecently;
+        }
     }
 
-    public Result createResult(Key key) {
-        return new Result(key.getValue() * 2);
-    }
 
     @Test
-    public void testLoadingCache() throws ExecutionException {
-        LoadingCache<Key, Result> graphs = CacheBuilder.newBuilder()
+    public void testLoadingCache() throws ExecutionException, InterruptedException {
+        MyRemovalListener removalListener = new MyRemovalListener();
+        LoadingCache<Integer, BigInteger> map = CacheBuilder.newBuilder()
                 .concurrencyLevel(4)
                 .maximumSize(10000)
                 .expireAfterWrite(10, TimeUnit.MINUTES)
                 .expireAfterAccess(10, TimeUnit.MINUTES)
                 .initialCapacity(50)
                 .weakKeys()
-                .weakValues()
-//                .softValues()
-                .removalListener(new MyRemovalListener())
+                .softValues()
+                .removalListener(removalListener)
+                .recordStats()
                 .build(
-                        new CacheLoader<Key, Result>() {
-                            public Result load(Key key) {
-                                return createResult(key);
+                        new CacheLoader<Integer, BigInteger>() {
+                            @SuppressWarnings("NullableProblems")
+                            public BigInteger load(Integer source) throws InterruptedException {
+                                Thread.sleep(5000);
+                                return BigInteger.valueOf(source).multiply(new BigInteger("500"));
                             }
-                        });
+                        }
+                );
+
+        {
+            Instant before = Instant.now();
+            BigInteger result = map.get(13);
+            Instant after = Instant.now();
+
+            assertThat(after.getEpochSecond() - before.getEpochSecond()).isGreaterThanOrEqualTo(5);
+            assertThat(result).isEqualTo(new BigInteger("6500"));
+        }
 
 
-        assertThat(graphs.get(new Key(13)).getValue()).isEqualTo(26);
-        assertThat(graphs.get(new Key(15)).getValue()).isEqualTo(30);
+        {
+            Instant before = Instant.now();
+            BigInteger result = map.get(13);
+            Instant after = Instant.now();
 
+            assertThat(after.getEpochSecond() - before.getEpochSecond()).isLessThan(1);
+            assertThat(result).isEqualTo(new BigInteger("6500"));
+        }
 
-        System.out.println(graphs.getAll
-                (Lists.transform(Lists.newArrayList(1, 3, 4, 19, 20, 25)
-                        , new IntegerToKeyFunction())));
+        {
+            map.invalidate(13);
+            assertThat(removalListener.getKeysRemovedRecently().get(0)).isEqualTo(13);
+        }
 
-    }
-
-
-    class IntegerToKeyFunction implements Function<Integer, Key> {
-        public Key apply(Integer value) {
-            return new Key(value);
+        {
+            map.stats().averageLoadPenalty();
+            map.stats().evictionCount();
+            map.stats().hitCount();
+            map.stats().hitRate();
+            map.stats().missCount();
         }
     }
 }

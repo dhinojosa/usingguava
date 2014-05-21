@@ -18,8 +18,9 @@ package org.abqjug;
 
 import org.testng.annotations.Test;
 
-public class PreconditionsTest {
+import java.util.function.Function;
 
+public class PreconditionsTest {
     @Test
     public void testPreconditions() {
         Book book = new Book();

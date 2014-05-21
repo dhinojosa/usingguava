@@ -33,7 +33,8 @@ public class OptionalTest {
     }
 
     public Optional<String> getValueFromInternalMap(String key) {
-        Map<String, String> maps = ImmutableMap.of("One", "1", "Two", "2", "Three", "3");
+        Map<String, String> maps = ImmutableMap.of("One", "1",
+                 "Two", "2", "Three", "3");
         return Optional.fromNullable(maps.get(key));
     }
 
@@ -46,7 +47,11 @@ public class OptionalTest {
     @Test
     public void testOptionalFromNullable() {
         assertThat(getValueFromInternalMap("Nine")).isEqualTo(Optional.absent());
-        assertThat(getValueFromInternalMap("One").get()).isEqualTo("1");
+        try {
+            getValueFromInternalMap("Nine").get();
+        } catch (IllegalStateException e) {
+            assertThat(e).hasMessage("Optional.get() cannot be called on an absent value");
+        }
         assertThat(getValueFromInternalMap("One").isPresent()).isTrue();
     }
 }

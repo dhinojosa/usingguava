@@ -58,8 +58,12 @@ public class BiMapTest {
         BiMap<String, String> spanishEnglishMap = englishSpanishMap.inverse();
 //        System.out.println(spanishEnglishMap);
         spanishEnglishMap.put("futbol", "soccer");
+//        spanishEnglishMap.forcePut("escuela", "college");
         System.out.println(englishSpanishMap);
         System.out.println(spanishEnglishMap);
+
+        englishSpanishMap.forEach((key, value) -> System.out.printf("Key: %s, Value: %s\n", key, value));
+
     }
 
     @Test
