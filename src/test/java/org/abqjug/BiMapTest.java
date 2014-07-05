@@ -76,7 +76,7 @@ public class BiMapTest {
                 .put("computer", "ordenador").build();
         assertEquals(englishSpanishMap.get("computer"), "ordenador");
         try {
-            englishSpanishMap.put("fill", "llenar");  //Should not happen
+            englishSpanishMap.putIfAbsent("fill", "llenar");  //Should not happen
             fail("expected java.lang.UnsupportedOperationException");
         } catch (java.lang.UnsupportedOperationException e) {
             assertTrue(true);
