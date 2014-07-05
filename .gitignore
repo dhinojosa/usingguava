@@ -19,3 +19,5 @@ target/
 *.ipr
 *.iws
 *.iml
+.classpath
+.project
