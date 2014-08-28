@@ -16,24 +16,16 @@
 
 package org.abqjug;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import org.testng.annotations.Test;
 
-import java.util.stream.Collectors;
+import java.util.Collection;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
-/**
- * Created by Daniel Hinojosa
- * User: Daniel Hinojosa
- * Date: Jul 13, 2010
- * Time: 3:55:19 PM
- * url: <a href="http://www.evolutionnext.com">http://www.evolutionnext.com</a>
- * email: <a href="mailto:dhinojosa@evolutionnext.com">dhinojosa@evolutionnext.com</a>
- * tel: 505.363.5832
- */
 public class MultiSetTest {
 
     @Test(groups = "unit")
@@ -53,19 +45,32 @@ public class MultiSetTest {
         assertEquals(worldCupChampionships.count("Italy"), 4);
         assertEquals(worldCupChampionships.count("Germany"), 3);
         assertEquals(worldCupChampionships.count("United States"), 0);
+        assertFalse(worldCupChampionships.contains("United States"));
+        worldCupChampionships.add("United States", 0);
+        assertEquals(worldCupChampionships.count("United States"), 0);
+        assertFalse(worldCupChampionships.contains("United States"));
+//
+//        Multiset<String> updatedWorldCupChampionships = worldCupChampionships.stream().map((s) ->
+//                String.format("Team %s", s)).collect(Collectors.toCollection(HashMultiset::create));
+//        System.out.println(updatedWorldCupChampionships);
 
-        worldCupChampionships.stream().forEach(System.out::println);
 
-        Multiset<String> updatedWorldCupChampionships = worldCupChampionships.stream().map((s) ->
-                String.format("Team %s", s)).collect(Collectors.toCollection(HashMultiset::create));
-        System.out.println(updatedWorldCupChampionships);
+        Collection<String> g = Collections2.transform(worldCupChampionships, new Function<String, String>() {
+            public String apply(String input) {
+                return "Team " + input;
+            }
+        });
 
-        worldCupChampionships.remove("Brazil");
-        assertEquals(worldCupChampionships.count("Brazil"), 4);
-//        worldCupChampionships.remove("Brazil",
-//                worldCupChampionships.count("Brazil"));
-        worldCupChampionships.setCount("Brazil", 0);
-        assertEquals(worldCupChampionships.count("Brazil"), 0);
-        assertEquals(worldCupChampionships.count("Uruguay"), 0);
+        assertEquals(g.getClass().getSimpleName(), "java.utilx.Collection");
+        assertTrue(g.contains("Team Brazil"));
+
+//
+//        worldCupChampionships.remove("Brazil");
+//        assertEquals(worldCupChampionships.count("Brazil"), 4);
+////        worldCupChampionships.remove("Brazil",
+////                worldCupChampionships.count("Brazil"));
+//        worldCupChampionships.setCount("Brazil", 0);
+//        assertEquals(worldCupChampionships.count("Brazil"), 0);
+//        assertEquals(worldCupChampionships.count("Uruguay"), 0);
     }
 }
