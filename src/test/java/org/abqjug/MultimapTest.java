@@ -44,7 +44,7 @@ public class MultimapTest {
         superBowlMap.put("Dallas Cowboys", 1995);
         superBowlMap.put("Dallas Cowboys", 1977);
         superBowlMap.put("Pittsburgh Steelers", 1975);
-        superBowlMap.put("Pittsburgh Steelers", 197);
+        superBowlMap.put("Pittsburgh Steelers", 1976);
         superBowlMap.put("Pittsburgh Steelers", 1979);
         superBowlMap.put("Pittsburgh Steelers", 1980);
         superBowlMap.put("Pittsburgh Steelers", 2006);
