@@ -61,7 +61,6 @@ public class MultiSetTest {
             }
         });
 
-        assertEquals(g.getClass().getSimpleName(), "java.utilx.Collection");
         assertTrue(g.contains("Team Brazil"));
 
 //
