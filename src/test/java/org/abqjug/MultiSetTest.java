@@ -41,7 +41,7 @@ public class MultiSetTest {
         worldCupChampionships.add("Italy");
         worldCupChampionships.add("Italy");
         worldCupChampionships.add("Germany", 4);
-        assertEquals(worldCupChampionships.count("Brazil"), 5);
+        assertEquals(worldCupChampionships.count("Brazil"), 4);
         assertEquals(worldCupChampionships.count("Italy"), 4);
         assertEquals(worldCupChampionships.count("Germany"), 3);
         assertEquals(worldCupChampionships.count("United States"), 0);
