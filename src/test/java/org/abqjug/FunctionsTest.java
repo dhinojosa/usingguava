@@ -20,6 +20,7 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import org.testng.annotations.Test;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 
@@ -76,7 +77,10 @@ public class FunctionsTest {
         List<Integer> untransformed = Lists
                 .newArrayList(1, 5, 6, 8, 9, 10, 44, 55, 19);
 
-        List<Integer> transformed = Lists.transform(untransformed, from -> from * 2);
+        Function<Integer, Integer> function = from -> from * 2;
+
+        List<Integer> transformed =
+                Lists.transform(untransformed, function);
 
         assertEquals(transformed.toString(),
                 "[2, 10, 12, 16, 18, 20, 88, 110, 38]");
