@@ -54,4 +54,29 @@ public class OptionalTest {
         }
         assertThat(getValueFromInternalMap("One").isPresent()).isTrue();
     }
+
+    @Test
+    public void testChainOptional() {
+        int called =0;
+        System.out.println(Optional.absent().or(Optional.of(++called)).or(Optional.absent()).or(Optional.of(++called)).or(Optional.absent()));
+        System.out.println(called);
+    }
+
+    @Test
+    public void testChainOptionalWithSupplier() {
+        int called =0;
+        System.out.println(Optional.absent().or(Optional.of(++called)).or(Optional.absent()).or(Optional.of(++called)).or(Optional.absent()));
+        System.out.println(called);
+    }
+
+    @Test
+    public void testWithJava8Optional() {
+        int called = 0;
+        System.out.println(java.util.Optional.empty().flatMap(a ->
+                java.util.Optional.of(3).map(b ->
+                        java.util.Optional.of(5).map(c ->
+                                        java.util.Optional.empty()
+                        ))));
+        System.out.println(called);
+    }
 }
