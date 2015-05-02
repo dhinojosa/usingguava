@@ -50,34 +50,13 @@ public class MultimapTest {
         superBowlMap.put("Pittsburgh Steelers", 2006);
         superBowlMap.put("Pittsburgh Steelers", 2009);
 
-//        assertEquals(superBowlMap.get("Dallas Cowboys").size(), 5);
-////        assertEquals(superBowlMap.get("Buffalo Bills").toString(), "[]");
-//        assertThat(superBowlMap.get("Dallas Cowboys")).contains(1971, 1992, 1993, 1993, 1995, 1977);
-
-        superBowlMap.get("Dallas Cowboys").add(2013);
-        assertThat(superBowlMap.get("Dallas Cowboys").size()).isEqualTo(6);
-        assertThat(superBowlMap.get("Cleveland Browns").size()).isEqualTo(0);
+        assertThat(superBowlMap.get("Dallas Cowboys").size()).isEqualTo(5);
+        assertThat(superBowlMap.get("Buffalo Bills").size()).isEqualTo(0);
         assertThat(superBowlMap.containsKey("Seattle Seahawks")).isFalse();
 
         assertThat(superBowlMap.keySet()).hasSize(2);
         superBowlMap.get("Denver Broncos").add(1999);
         assertThat(superBowlMap.keySet()).hasSize(3);
 
-//        ArrayListMultimap<Integer, String> newMap =
-// ArrayListMultimap.create();
-//        superBowlMap.put("Dallas Cowboys", 1975);
-//        newMap.put(1984, "Oakland Raiders");
-//        Multimaps.invertFrom(superBowlMap, newMap);
-//        assertTrue(newMap.keys().size() == 12);
-//        superBowlMap.get("Seattle Seahawks");
-//        assertThat(superBowlMap.containsKey("Seattle Seahawks")).isFalse();
-//        assertThat(superBowlMap.get("Chicago Bears").size()).isEqualTo(0);
-//        assertThat(superBowlMap.containsKey("Chicago Bears")).isFalse();
-//
-//
-//
-////        assertThat(superBowlMap.get("Seattle Seahawks")).hasSize(1);
-////        assertThat(superBowlMap.containsKey("Seattle Seahawks")).isTrue();
-//        System.out.println(superBowlMap.keySet());
     }
 }
