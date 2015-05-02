@@ -1,21 +1,20 @@
 package org.abqjug;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
-/**
- * @author Daniel Hinojosa
- * @since 6/12/13 1:14 AM
- *        url: <a href="http://www.evolutionnext.com">http://www.evolutionnext.com</a>
- *        email: <a href="mailto:dhinojosa@evolutionnext.com">dhinojosa@evolutionnext.com</a>
- *        tel: 505.363.5832
- */
 public class Employee {
     private String firstName;
     private String lastName;
+    private String alias;
 
     public Employee(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public Employee(String alias) {
+        this.alias = alias;
     }
 
     public String getFirstName() {
@@ -34,38 +33,43 @@ public class Employee {
         this.lastName = lastName;
     }
 
+    public String getAlias() {
+        return alias;
+    }
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (!(o instanceof Employee)) return false;
+//        Employee employee = (Employee) o;
+//        return Objects.equal(this.firstName, employee.firstName) &&
+//                Objects.equal(this.lastName, employee.lastName) &&
+//                Objects.equal(this.alias, employee.alias);
+//    }
+
+
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        if (!(o instanceof Employee)) return false;
         Employee employee = (Employee) o;
-        return Objects.equal(this.firstName, employee.firstName) &&
-                Objects.equal(this.lastName, employee.lastName);
 
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//
-//        Employee employee = (Employee) o;
-//
-//        if (firstName != null ? !firstName.equals(employee.firstName) : employee.firstName != null) return false;
-//        if (lastName != null ? !lastName.equals(employee.lastName) : employee.lastName != null) return false;
-//
-//        return true;
+        if (firstName != null ? !firstName.equals(employee.firstName) : employee.firstName != null) return false;
+        return !(lastName != null ? !lastName.equals(employee.lastName) : employee.lastName != null)
+                && !(alias != null ? !alias.equals(employee.alias) : employee.alias != null);
     }
 
     @Override
     public int hashCode() {
-        java.util.Objects.hash(firstName, lastName);
-        int result = firstName != null ? firstName.hashCode() : 0;
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        return result;
+        return java.util.Objects.hash(firstName, lastName, alias);
     }
 
     @Override
     public String toString() {
-        return "Employee{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
+        return MoreObjects.toStringHelper(this)
+                .add("firstName", firstName)
+                .add("lastName", lastName)
+                .add("alias", alias)
+                .toString();
     }
 }
