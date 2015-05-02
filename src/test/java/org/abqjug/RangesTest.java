@@ -44,12 +44,15 @@ public class RangesTest {
         assertThat(Range.greaterThan(10).contains(1)).isFalse();
         assertThat(Range.open(0, 12).contains(12)).isFalse();
         assertThat(Range.atMost(100).encloses(Range.closed(0, 10))).isTrue();
+        assertThat(Range.atMost(100).contains(10)).isTrue();
 
-        assertThat(closed(3, 5).isConnected(Range.open(5, 10))).isEqualTo(true); // returns true
+        assertThat(Range.closed(3, 5).isConnected(Range.open(5, 10))).isEqualTo(true); // returns true
         assertThat(closed(0, 9).isConnected(closed(3, 4))).isEqualTo(true); // returns true
         assertThat(closed(0, 5).isConnected(closed(3, 9))).isEqualTo(true); // returns true
         assertThat(Range.open(3, 5).isConnected(Range.open(5, 10))).isEqualTo(false); // returns false
         assertThat(closed(1, 5).isConnected(closed(6, 10))).isEqualTo(false); // returns false
+        assertThat(closed(1, 5).isConnected(closed(5, 10))).isTrue(); // returns true
+        assertThat(Range.closed(1, 5).encloses(Range.open(2, 4))).isTrue(); // returns true
+        assertThat(Range.closed(1, 5).intersection(Range.open(3, 10))).isEqualTo(Range.openClosed(3, 5)); // returns true
     }
-
 }
