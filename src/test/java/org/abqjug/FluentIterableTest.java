@@ -77,7 +77,7 @@ public class FluentIterableTest {
     }
 
     @Test
-    public void testBasicFluentIterableUsingJava8() {
+    public void testBasicFunctionalProgrammingUsingJava8() {
         Pattern p = Pattern.compile("[a-z&&[^aeiou]]{4}");
         //Can't use matches, since matches uses entire string
         List<String> result = Arrays.asList(capitals.split("\n"))
