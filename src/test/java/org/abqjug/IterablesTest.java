@@ -57,5 +57,4 @@ public class IterablesTest {
         assertEquals(it.next(), Lists.newArrayList(3, 4));
         assertEquals(it.next(), Lists.newArrayList(5, null));
     }
-
 }
