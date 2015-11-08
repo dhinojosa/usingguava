@@ -46,10 +46,12 @@ public class HashingTest {
 
     @Test
     public void testBloomFilter() throws URISyntaxException, IOException {
-        Stream<String> lines = Files.lines(Paths.get(this.getClass().getResource("/lotsofnames.txt").toURI()));
+        Stream<String> lines = Files.lines(Paths.get
+                (this.getClass().getResource("/lotsofnames.txt").toURI()));
 
         //Size is important! If you are off, this will cause overflow, then you will get bad results
-        BloomFilter<Employee> employees = BloomFilter.create(EmployeeFunnel.INSTANCE, 2005);
+        BloomFilter<Employee> employees =
+                BloomFilter.create(EmployeeFunnel.INSTANCE, 2);
 
         lines.map(x -> Arrays.asList(x.split(","))).forEach(strings -> {
             Employee employee;
@@ -59,8 +61,8 @@ public class HashingTest {
         });
 
         assertThat(employees.mightContain(new Employee("Jane", "Ace"))).isTrue();          //maybe true
-        assertThat(employees.mightContain(new Employee("Kardashian", "Kim"))).isFalse();   //definitely false
-        assertThat(employees.mightContain(new Employee("Staley", "Paul"))).isFalse();      //definitely false
+        assertThat(employees.mightContain(new Employee("Kim", "Kardashian"))).isFalse();   //definitely false
+        assertThat(employees.mightContain(new Employee("Paul", "Staley"))).isFalse();      //definitely false
         assertThat(employees.mightContain(new Employee("Eleanor", "Roosevelt"))).isTrue(); //maybe true
         assertThat(employees.mightContain(new Employee("Bono"))).isTrue();                 //maybe true
     }

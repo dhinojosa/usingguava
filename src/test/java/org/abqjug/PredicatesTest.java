@@ -17,6 +17,7 @@ package org.abqjug;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.testng.annotations.Test;
 
@@ -70,6 +71,25 @@ public class PredicatesTest {
         }
     }
 
+    @Test
+    public void testPredicateBasicOnImmutable() {
+        Predicate<Integer> isOdd = new Predicate<Integer>() {
+            public boolean apply(Integer input) {
+                return input % 2 != 0;
+            }
+        };
+
+        Collection<Integer> unfiltered = ImmutableList.of
+                (1, 5, 6, 8, 9, 10, 44, 55, 19);
+
+        Collection<Integer> filteredList =
+                Collections2.filter(unfiltered, isOdd);
+
+        assertThat(filteredList.contains(21)).isFalse(); //Obvious
+
+        //filteredList.add(12); Faile
+        filteredList.add(33);
+    }
     @Test
     public void testPredicateBasicJava8() {
         Collection<Integer> unfiltered = Lists.<Integer>newArrayList

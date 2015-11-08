@@ -3,6 +3,7 @@ package org.abqjug;
 import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
+import com.sun.xml.internal.fastinfoset.util.DuplicateAttributeVerifier;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
@@ -65,15 +66,16 @@ public class FluentIterableTest {
             "Madison\tWisconsin\n" +
             "Cheyenne\tWyoming";
 
+
     @Test
     public void testBasicFluentIterable() {
         List<String> result = FluentIterable
                 .from(Arrays.asList(capitals.split("\n")))
-                .transform(s -> s.split("\t")[0].trim())
+                .transform(s -> s.split("\t")[0].toLowerCase().trim())
                 .filter(Predicates.containsPattern("[a-z&&[^aeiou]]{4}"))
                 .toList();
 
-        assertThat(result).containsExactly("Olympia");
+        assertThat(result).containsExactly("olympia");
     }
 
     @Test
@@ -82,9 +84,17 @@ public class FluentIterableTest {
         //Can't use matches, since matches uses entire string
         List<String> result = Arrays.asList(capitals.split("\n"))
                 .stream()
-                .map(s -> s.split("\t")[0].trim())
+                .map(s -> s.split("\t")[0].toLowerCase().trim())
                 .filter(s -> p.matcher(s).find())
                 .collect(Collectors.toList());
-        assertThat(result).containsExactly("Olympia");
+        assertThat(result).containsExactly("olympia");
     }
 }
+
+
+
+
+
+
+
+

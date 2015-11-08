@@ -15,8 +15,11 @@
  */
 package org.abqjug;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Range;
 import org.testng.annotations.Test;
+
+import java.util.Arrays;
 
 import static com.google.common.collect.Range.closed;
 import static org.fest.assertions.Assertions.assertThat;
@@ -54,5 +57,13 @@ public class RangesTest {
         assertThat(closed(1, 5).isConnected(closed(5, 10))).isTrue(); // returns true
         assertThat(Range.closed(1, 5).encloses(Range.open(2, 4))).isTrue(); // returns true
         assertThat(Range.closed(1, 5).intersection(Range.open(3, 10))).isEqualTo(Range.openClosed(3, 5)); // returns true
+
+
+        assertThat(Range.open(1.0, 5.0).contains(1.00000001)).isTrue();
+
+        System.out.println(Arrays.asList(1, 2, 3, 4, 5).getClass().getName());
+        System.out.println(ImmutableList.of(1,2,3,4,5).getClass().getName());
+
+
     }
 }
